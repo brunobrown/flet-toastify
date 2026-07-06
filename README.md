@@ -17,13 +17,15 @@ A customizable and animated notification widget for Flet apps. Display beautiful
 - 🌈 **Theming Support**: Match your app's color scheme
 
 > Example usage:
+
 ```Python
 import flet as ft
-from NotificationCenter import NotificationCenter, NotificationTypes
+from src.NotificationCenter import NotificationCenter, NotificationTypes
+
 
 def main(page: ft.Page):
     nc = NotificationCenter(alignment=ft.alignment.top_right)
-    
+
     page.add(nc)
 
     # Add notification
@@ -32,7 +34,7 @@ def main(page: ft.Page):
         notification_type=NotificationTypes.SUCCESS.value,
         duration=3000
     )
-    
+
 
 ft.app(main)
 ```

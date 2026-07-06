@@ -1,0 +1,70 @@
+[project]
+site_name = "flet-toastify"
+site_description = "Toast-style notifications for Flet apps — declarative, animated, and fully customizable."
+repo_name = "brunobrown/flet-toastify"
+repo_url = "https://github.com/brunobrown/flet-toastify"
+docs_dir = "docs"
+site_dir = "site"
+extra_css = ["stylesheets/extra.css"]
+extra_javascript = ["javascripts/mermaid-viewer.js"]
+nav = [
+  {"Overview" = "index.md"},
+  {"Architecture" = [
+    {"Overview" = "architecture/index.md"},
+    {"Diagrams" = "architecture/diagrams.md"},
+    {"Generated diagrams" = [
+      {"Index" = "architecture/generated/index.md"},
+      {"Module hierarchy" = "architecture/generated/hierarchy.md"},
+      {"Module dependencies" = "architecture/generated/modules.md"},
+      {"Class details" = "architecture/generated/classes.md"},
+      {"Hybrid audit view" = "architecture/generated/hybrid.md"},
+    ]},
+  ]},
+  {"API Reference" = "reference/api.md"},
+]
+
+[project.theme]
+name = "material"
+language = "en"
+logo = "assets/logo.png"
+favicon = "assets/logo.png"
+features = [
+  "navigation.instant",
+  "navigation.sections",
+  "navigation.top",
+  "search.suggest",
+  "search.highlight",
+]
+palette = [
+  { media = "(prefers-color-scheme: light)", scheme = "default", primary = "custom", accent = "custom", toggle = { icon = "material/brightness-7", name = "Switch to dark mode" } },
+  { media = "(prefers-color-scheme: dark)", scheme = "slate", primary = "custom", accent = "custom", toggle = { icon = "material/brightness-4", name = "Switch to light mode" } },
+]
+
+[project.plugins]
+search = {}
+techdocs-core = {}
+
+[project.plugins.mkdocstrings.handlers.python.options]
+docstring_style = "google"
+show_source = false
+show_signature_annotations = true
+separate_signature = true
+merge_init_into_class = true
+
+[project.markdown_extensions.admonition]
+
+[project.markdown_extensions.toc]
+permalink = true
+
+[project.markdown_extensions."pymdownx.superfences"]
+
+[[project.markdown_extensions."pymdownx.superfences".custom_fences]]
+name = "mermaid"
+class = "mermaid"
+format = "pymdownx.superfences.fence_code_format"
+
+[project.markdown_extensions."pymdownx.highlight"]
+
+[project.markdown_extensions."pymdownx.inlinehilite"]
+
+[project.markdown_extensions."pymdownx.snippets"]

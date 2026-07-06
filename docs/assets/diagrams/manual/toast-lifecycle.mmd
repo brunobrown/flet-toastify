@@ -1,0 +1,7 @@
+stateDiagram-v2
+    [*] --> ENTERING: show() / info() / success() / warning() / error()
+    ENTERING --> VISIBLE: enter animation finished (in_duration)
+    VISIBLE --> LEAVING: auto-dismiss (duration > 0)
+    VISIBLE --> LEAVING: manual dismiss(id) / close button
+    VISIBLE --> VISIBLE: duration = 0 (persistent, waits for dismiss)
+    LEAVING --> [*]: exit animation finished (out_duration) → removed from list

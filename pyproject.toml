@@ -1,0 +1,114 @@
+[project]
+name = "flet-toastify"
+version = "0.1.0"
+description = "Toast-style notifications for Flet apps — declarative, animated, and fully customizable."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Bruno Brown", email = "brunobrown.86@gmail.com" },
+]
+requires-python = ">=3.14"
+dependencies = [
+    "flet>=0.85.3",
+]
+keywords = ["flet", "flutter", "notifications", "toast", "snackbar", "ui"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: User Interfaces",
+]
+
+[project.urls]
+Homepage = "https://github.com/brunobrown/flet-toastify"
+Repository = "https://github.com/brunobrown/flet-toastify"
+Issues = "https://github.com/brunobrown/flet-toastify/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/flet_toastify"]
+
+[dependency-groups]
+dev = [
+    "flet[all]>=0.85.3",
+    "lizard>=1.22.1",
+    "zensical>=0.0.37",
+    "mkdocstrings[python]>=0.30.0",
+    "pymdown-extensions>=10.16",
+    "pre-commit>=4.3.0",
+    "pytest>=9.0.3",
+    "pytest-asyncio>=1.3.0",
+    "pytest-cov>=7.1.0",
+    "taskipy>=1.14.1",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"
+markers = [
+  "unit: unit tests (default fast suite)",
+  "integration: integration tests that require a Flet client (flet.testing)",
+]
+addopts = [
+    "--cov=flet_toastify",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-fail-under=100",
+    "--no-cov-on-fail",
+    "-m",
+    "not integration",
+]
+
+[tool.ruff]
+extend-exclude = ["__pycache__"]
+target-version = "py314"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "N", "SIM", "C90"]
+ignore = ["E501"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.isort]
+known-first-party = ["flet_toastify"]
+
+[tool.ty.src]
+include = ["src", "tests"]
+exclude = [
+    "**/__pycache__/**",
+    "**/scripts/**"
+]
+
+[tool.taskipy.tasks]
+format = "uv tool run ruff format ."
+lint = "uv tool run ruff check ."
+complexity = "uv tool run lizard src tests -C 10"
+typecheck = "uv tool run ty check"
+test = "uv run pytest -q"
+docs-docstrings = "uv run python scripts/check_docstring_coverage.py --paths src --fail-under 100"
+docs-api-reference = "uv run python scripts/check_api_reference_coverage.py --root src/flet_toastify --reference docs/reference/api.md --package flet_toastify"
+docs-diagrams = "uv run python scripts/generate_class_diagram.py --module src/flet_toastify --diagram all --output-dir docs/assets/diagrams/generated --format mermaid --title 'flet-toastify generated architecture diagrams' && mkdir -p /tmp/flet-toastify-docs-node-tools && npm install --prefix /tmp/flet-toastify-docs-node-tools beautiful-mermaid@1.1.3 && FLET_TOASTIFY_DOCS_NODE_TOOLS_DIR=/tmp/flet-toastify-docs-node-tools node scripts/render_mermaid_svg.mjs --source-dir docs/assets/diagrams/manual --source-dir docs/assets/diagrams/generated --render-generated-pages --page-output-dir docs/architecture/generated"
+docs = "task docs-docstrings && task docs-api-reference && task docs-diagrams && uv run zensical build --strict"
+
+quality = """
+task format &&
+task lint &&
+task complexity &&
+task typecheck &&
+task test
+"""
