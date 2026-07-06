@@ -1,3 +1,37 @@
 classDiagram
   direction LR
   %% flet-toastify generated architecture diagrams: classes
+
+  class Toast {
+    +str | ft.Control content
+    +ToastType type
+    +int duration_ms
+    +ToastPhase phase
+    +str id
+    +with_phase(phase)
+  }
+
+  class Position {
+    +Any TOP_LEFT
+    +Any TOP_CENTER
+    +Any TOP_RIGHT
+    +Any BOTTOM_LEFT
+    +Any BOTTOM_CENTER
+    +Any BOTTOM_RIGHT
+  }
+
+  class ToastPhase {
+    +Any ENTERING
+    +Any VISIBLE
+    +Any LEAVING
+  }
+
+  class ToastType {
+    +Any INFO
+    +Any SUCCESS
+    +Any WARNING
+    +Any ERROR
+  }
+
+  Toast ..> ToastPhase
+  Toast ..> ToastType

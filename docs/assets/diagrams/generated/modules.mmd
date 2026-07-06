@@ -1,3 +1,19 @@
 classDiagram
   direction LR
   %% flet-toastify generated architecture diagrams: module dependencies
+
+  class flet_toastify_models {
+    <<module>>
+    +module flet_toastify.models
+    +class Toast
+  }
+
+  class flet_toastify_types {
+    <<module>>
+    +module flet_toastify.types
+    +class ToastType
+    +class ToastPhase
+    +class Position
+  }
+
+  flet_toastify_models --> flet_toastify_types

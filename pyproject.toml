@@ -111,4 +111,5 @@ task lint &&
 task complexity &&
 task typecheck &&
 task test
+task docs
 """

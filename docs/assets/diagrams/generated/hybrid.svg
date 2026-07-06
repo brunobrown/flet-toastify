@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0" width="0" height="0" style="--bg:#ffffff;--fg:#1f2328;--line:#d1d9e0;--accent:#0969da;--muted:#59636e">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 614.2833333333333 640" width="614.2833333333333" height="640" style="--bg:#ffffff;--fg:#1f2328;--line:#d1d9e0;--accent:#0969da;--muted:#59636e">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter%2C%20system-ui%2C%20sans-serif:wght@400;500;600;700&amp;display=swap');
   @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;display=swap');
@@ -34,4 +34,87 @@
     <polyline points="0 0, 8 3, 0 6" fill="none" stroke="var(--_arrow)" stroke-width="1.5" />
   </marker>
 </defs>
+<polyline class="class-relationship" data-from="flet_toastify_models" data-to="Toast" data-type="dependency" data-marker-at="to" points="377.1,144 377.1,154 207.63333333333335,154 207.63333333333335,204" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
+<polyline class="class-relationship" data-from="flet_toastify_types" data-to="Position" data-type="dependency" data-marker-at="to" points="500.28333333333336,366 500.28333333333336,432" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
+<polyline class="class-relationship" data-from="flet_toastify_types" data-to="ToastPhase" data-type="dependency" data-marker-at="to" points="448.43333333333334,366 448.43333333333334,402 280,402 280,432" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
+<polyline class="class-relationship" data-from="flet_toastify_types" data-to="ToastType" data-type="dependency" data-marker-at="to" points="396.58333333333337,366 396.58333333333337,392 120,392 120,432" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
+<polyline class="class-relationship" data-from="Toast" data-to="ToastPhase" data-type="dependency" data-marker-at="to" points="240,372 240,432" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
+<polyline class="class-relationship" data-from="Toast" data-to="ToastType" data-type="dependency" data-marker-at="to" points="175.26666666666668,372 175.26666666666668,382 80,382 80,432" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
+<polyline class="class-relationship" data-from="flet_toastify_models" data-to="flet_toastify_types" data-type="association" data-marker-at="to" points="448.43333333333334,144 448.43333333333334,222" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#cls-arrow)" />
+<g class="class-node" data-id="flet_toastify_models" data-label="flet_toastify_models" data-annotation="module">
+  <rect x="305.76666666666665" y="40" width="214" height="104" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="305.76666666666665" y="40" width="214" height="48" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="412.76666666666665" y="52" text-anchor="middle" dy="0.35em" font-size="10" font-weight="500" font-style="italic" fill="var(--_text-muted)">&lt;&lt;module&gt;&gt;</text>
+  <text x="412.76666666666665" y="70" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">flet_toastify_models</text>
+  <line x1="305.76666666666665" y1="88" x2="519.7666666666667" y2="88" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="313.76666666666665" y="102" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">flet_toastify.models</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">module</tspan></text>
+  <text x="313.76666666666665" y="122" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">Toast</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">class</tspan></text>
+  <line x1="305.76666666666665" y1="136" x2="519.7666666666667" y2="136" stroke="var(--_node-stroke)" stroke-width="0.75" />
+</g>
+<g class="class-node" data-id="flet_toastify_types" data-label="flet_toastify_types" data-annotation="module">
+  <rect x="344.73333333333335" y="222" width="207.4" height="144" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="344.73333333333335" y="222" width="207.4" height="48" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="448.43333333333334" y="234" text-anchor="middle" dy="0.35em" font-size="10" font-weight="500" font-style="italic" fill="var(--_text-muted)">&lt;&lt;module&gt;&gt;</text>
+  <text x="448.43333333333334" y="252" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">flet_toastify_types</text>
+  <line x1="344.73333333333335" y1="270" x2="552.1333333333333" y2="270" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="352.73333333333335" y="284" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">flet_toastify.types</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">module</tspan></text>
+  <text x="352.73333333333335" y="304" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">ToastType</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">class</tspan></text>
+  <text x="352.73333333333335" y="324" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">ToastPhase</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">class</tspan></text>
+  <text x="352.73333333333335" y="344" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">Position</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">class</tspan></text>
+  <line x1="344.73333333333335" y1="358" x2="552.1333333333333" y2="358" stroke="var(--_node-stroke)" stroke-width="0.75" />
+</g>
+<g class="class-node" data-id="Toast" data-label="Toast">
+  <rect x="110.53333333333336" y="204" width="194.2" height="168" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="110.53333333333336" y="204" width="194.2" height="32" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="207.63333333333335" y="220" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">Toast</text>
+  <line x1="110.53333333333336" y1="236" x2="304.73333333333335" y2="236" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="118.53333333333336" y="250" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">| ft.Control content</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">str</tspan></text>
+  <text x="118.53333333333336" y="270" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">type</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">ToastType</tspan></text>
+  <text x="118.53333333333336" y="290" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">duration_ms</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">int</tspan></text>
+  <text x="118.53333333333336" y="310" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">phase</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">ToastPhase</tspan></text>
+  <text x="118.53333333333336" y="330" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">id</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">str</tspan></text>
+  <line x1="110.53333333333336" y1="344" x2="304.73333333333335" y2="344" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="118.53333333333336" y="358" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">with_phase(phase)</tspan></text>
+</g>
+<g class="class-node" data-id="Position" data-label="Position">
+  <rect x="426.28333333333336" y="432" width="148" height="168" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="426.28333333333336" y="432" width="148" height="32" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="500.28333333333336" y="448" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">Position</text>
+  <line x1="426.28333333333336" y1="464" x2="574.2833333333333" y2="464" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="434.28333333333336" y="478" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">TOP_LEFT</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">Any</tspan></text>
+  <text x="434.28333333333336" y="498" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">TOP_CENTER</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">Any</tspan></text>
+  <text x="434.28333333333336" y="518" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">TOP_RIGHT</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">Any</tspan></text>
+  <text x="434.28333333333336" y="538" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">BOTTOM_LEFT</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">Any</tspan></text>
+  <text x="434.28333333333336" y="558" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">BOTTOM_CENTER</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">Any</tspan></text>
+  <text x="434.28333333333336" y="578" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">BOTTOM_RIGHT</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">Any</tspan></text>
+  <line x1="426.28333333333336" y1="592" x2="574.2833333333333" y2="592" stroke="var(--_node-stroke)" stroke-width="0.75" />
+</g>
+<g class="class-node" data-id="ToastPhase" data-label="ToastPhase">
+  <rect x="200" y="432" width="120" height="108" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="200" y="432" width="120" height="32" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="260" y="448" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">ToastPhase</text>
+  <line x1="200" y1="464" x2="320" y2="464" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="208" y="478" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">ENTERING</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">Any</tspan></text>
+  <text x="208" y="498" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">VISIBLE</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">Any</tspan></text>
+  <text x="208" y="518" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">LEAVING</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">Any</tspan></text>
+  <line x1="200" y1="532" x2="320" y2="532" stroke="var(--_node-stroke)" stroke-width="0.75" />
+</g>
+<g class="class-node" data-id="ToastType" data-label="ToastType">
+  <rect x="40" y="432" width="120" height="128" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="40" y="432" width="120" height="32" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="100" y="448" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">ToastType</text>
+  <line x1="40" y1="464" x2="160" y2="464" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="48" y="478" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">INFO</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">Any</tspan></text>
+  <text x="48" y="498" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">SUCCESS</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">Any</tspan></text>
+  <text x="48" y="518" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">WARNING</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">Any</tspan></text>
+  <text x="48" y="538" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">ERROR</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">Any</tspan></text>
+  <line x1="40" y1="552" x2="160" y2="552" stroke="var(--_node-stroke)" stroke-width="0.75" />
+</g>
+
+
+
+
+
+
+
 </svg>

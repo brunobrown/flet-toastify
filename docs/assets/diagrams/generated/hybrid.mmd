@@ -1,3 +1,56 @@
 classDiagram
   direction LR
   %% flet-toastify generated architecture diagrams: hybrid modules and classes
+
+  class flet_toastify_models {
+    <<module>>
+    +module flet_toastify.models
+    +class Toast
+  }
+
+  class flet_toastify_types {
+    <<module>>
+    +module flet_toastify.types
+    +class ToastType
+    +class ToastPhase
+    +class Position
+  }
+
+  class Toast {
+    +str | ft.Control content
+    +ToastType type
+    +int duration_ms
+    +ToastPhase phase
+    +str id
+    +with_phase(phase)
+  }
+
+  class Position {
+    +Any TOP_LEFT
+    +Any TOP_CENTER
+    +Any TOP_RIGHT
+    +Any BOTTOM_LEFT
+    +Any BOTTOM_CENTER
+    +Any BOTTOM_RIGHT
+  }
+
+  class ToastPhase {
+    +Any ENTERING
+    +Any VISIBLE
+    +Any LEAVING
+  }
+
+  class ToastType {
+    +Any INFO
+    +Any SUCCESS
+    +Any WARNING
+    +Any ERROR
+  }
+
+  flet_toastify_models ..> Toast
+  flet_toastify_types ..> Position
+  flet_toastify_types ..> ToastPhase
+  flet_toastify_types ..> ToastType
+  Toast ..> ToastPhase
+  Toast ..> ToastType
+  flet_toastify_models --> flet_toastify_types
