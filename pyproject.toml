@@ -110,6 +110,6 @@ task format &&
 task lint &&
 task complexity &&
 task typecheck &&
-task test
+task test &&
 task docs
 """

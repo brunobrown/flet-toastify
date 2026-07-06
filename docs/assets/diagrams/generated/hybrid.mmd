@@ -8,6 +8,12 @@ classDiagram
     +class Toast
   }
 
+  class flet_toastify_state {
+    <<module>>
+    +module flet_toastify.state
+    +class Toasts
+  }
+
   class flet_toastify_style {
     <<module>>
     +module flet_toastify.style
@@ -30,6 +36,16 @@ classDiagram
     +str id
     +ToastStyle? style
     +with_phase(phase)
+  }
+
+  class Toasts {
+    +show(content)
+    +info(content)
+    +success(content)
+    +warning(content)
+    +error(content)
+    +dismiss(toast_id)
+    +clear()
   }
 
   class ToastStyle {
@@ -86,6 +102,7 @@ classDiagram
   }
 
   flet_toastify_models ..> Toast
+  flet_toastify_state ..> Toasts
   flet_toastify_style ..> ToastStyle
   flet_toastify_types ..> Position
   flet_toastify_types ..> ToastPhase
@@ -93,8 +110,14 @@ classDiagram
   Toast ..> ToastPhase
   Toast ..> ToastStyle
   Toast ..> ToastType
+  Toasts ..> Toast
+  Toasts ..> ToastPhase
+  Toasts ..> ToastStyle
   ToastStyle ..> Toast
   ToastStyle ..> ToastType
   flet_toastify_models --> flet_toastify_style
   flet_toastify_models --> flet_toastify_types
+  flet_toastify_state --> flet_toastify_models
+  flet_toastify_state --> flet_toastify_style
+  flet_toastify_state --> flet_toastify_types
   flet_toastify_style --> flet_toastify_types

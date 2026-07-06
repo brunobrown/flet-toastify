@@ -12,6 +12,16 @@ classDiagram
     +with_phase(phase)
   }
 
+  class Toasts {
+    +show(content)
+    +info(content)
+    +success(content)
+    +warning(content)
+    +error(content)
+    +dismiss(toast_id)
+    +clear()
+  }
+
   class ToastStyle {
     +int height
     +int width
@@ -70,3 +80,6 @@ classDiagram
   Toast ..> ToastType
   ToastStyle ..> Toast
   ToastStyle ..> ToastType
+  Toasts ..> Toast
+  Toasts ..> ToastPhase
+  Toasts ..> ToastStyle

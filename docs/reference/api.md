@@ -21,3 +21,9 @@ Immutable toast value object.
 Visual and animation styling, with per-type resolution and fallbacks.
 
 ::: flet_toastify.style
+
+## State
+
+Observable toast collection, lifecycle orchestration, and the default `toast` instance.
+
+::: flet_toastify.state

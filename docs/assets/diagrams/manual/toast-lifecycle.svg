@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 510.63800000000003 855.9" width="510.63800000000003" height="855.9" style="--bg:#ffffff;--fg:#1f2328;--line:#d1d9e0;--accent:#0969da;--muted:#59636e">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 574.3056666666666 855.9" width="574.3056666666666" height="855.9" style="--bg:#ffffff;--fg:#1f2328;--line:#d1d9e0;--accent:#0969da;--muted:#59636e">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter%2C%20system-ui%2C%20sans-serif:wght@400;500;600;700&amp;display=swap');
   text { font-family: 'Inter, system-ui, sans-serif', system-ui, sans-serif; }
@@ -26,53 +26,58 @@
     <polygon points="8 0, 0 2.5, 8 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
 </defs>
-<polyline class="edge" data-from="_start" data-to="ENTERING" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="show() / info() / success() / warning() / error()" points="305.919,76 305.919,224.3" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
-<polyline class="edge" data-from="ENTERING" data-to="VISIBLE" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="enter animation finished (in_duration)" points="305.919,261.2 305.919,409.5" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
-<polyline class="edge" data-from="VISIBLE" data-to="LEAVING" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="auto-dismiss (duration &gt; 0)" points="290.52933333333334,446.4 290.52933333333334,498.40000000000003 227.75599999999997,498.40000000000003 227.75599999999997,582.7 289.5413333333333,582.7 289.5413333333333,594.7" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
-<polyline class="edge" data-from="VISIBLE" data-to="LEAVING" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="manual dismiss(id) / close button" points="321.3086666666666,446.4 321.3086666666666,498.40000000000003 384.082,498.40000000000003 384.082,582.7 322.2966666666666,582.7 322.2966666666666,594.7" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
-<polyline class="edge" data-from="VISIBLE" data-to="VISIBLE" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="duration = 0 (persistent, waits for dismiss)" points="259.75,421.8 249.75,421.8 249.75,434.1 259.75,434.1" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
-<polyline class="edge" data-from="LEAVING" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="exit animation finished (out_duration) → removed from list" points="305.9189999999999,631.6 305.919,779.9" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="_start" data-to="ENTERING" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="show() / info() / success() / warning() / error()" points="366.7534999999999,76 366.7534999999999,224.3" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="ENTERING" data-to="VISIBLE" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="enter animation finished (in_duration)" points="348.8938333333333,261.2 348.8938333333333,313.2 305.9189999999999,313.2 305.9189999999999,409.5" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="ENTERING" data-to="LEAVING" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="early dismiss(id)" points="384.61316666666664,261.2 384.61316666666664,313.2 474.6676666666666,313.2 474.6676666666666,582.7 401.8164999999999,582.7 401.8164999999999,594.7" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="VISIBLE" data-to="LEAVING" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="auto-dismiss (duration &gt; 0)" points="290.5293333333333,446.4 290.5293333333333,538.4000000000001 220.92399999999986,538.4000000000001 220.92399999999986,582.7 352.6834999999999,582.7 352.6834999999999,594.7" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="VISIBLE" data-to="LEAVING" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="manual dismiss(id) / close button" points="321.3086666666666,446.4 321.3086666666666,498.40000000000003 377.2499999999999,498.40000000000003 377.24999999999994,594.7" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="VISIBLE" data-to="VISIBLE" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="duration = 0 (persistent, waits for dismiss)" points="259.74999999999994,421.8 249.74999999999994,421.8 249.74999999999994,434.1 259.74999999999994,434.1" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="LEAVING" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="exit animation finished (out_duration) → removed from list" points="377.24999999999994,631.6 377.24999999999994,779.9" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="_start" data-to="ENTERING" data-label="show() / info() / success() / warning() / error()">
-  <rect x="195.41899999999998" y="135" width="220.79800000000003" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
-  <text x="305.818" y="150.15" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">show() / info() / success() / warning() / error()</text>
+  <rect x="256.2534999999999" y="135" width="220.79800000000003" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="366.6524999999999" y="150.15" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">show() / info() / success() / warning() / error()</text>
 </g>
 <g class="edge-label" data-from="ENTERING" data-to="VISIBLE" data-label="enter animation finished (in_duration)">
-  <rect x="211.41899999999998" y="320.2" width="188.12800000000001" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
-  <text x="305.483" y="335.34999999999997" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">enter animation finished (in_duration)</text>
+  <rect x="211.41899999999993" y="320.2" width="188.12800000000001" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="305.48299999999995" y="335.34999999999997" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">enter animation finished (in_duration)</text>
+</g>
+<g class="edge-label" data-from="ENTERING" data-to="LEAVING" data-label="early dismiss(id)">
+  <rect x="427.1676666666666" y="473.1" width="94.27600000000001" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="474.30566666666664" y="488.25" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">early dismiss(id)</text>
 </g>
 <g class="edge-label" data-from="VISIBLE" data-to="LEAVING" data-label="auto-dismiss (duration &gt; 0)">
-  <rect x="158.25599999999997" y="505.4000000000001" width="138.82600000000005" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
-  <text x="227.66899999999998" y="520.5500000000001" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">auto-dismiss (duration &gt; 0)</text>
+  <rect x="151.42399999999986" y="545.4000000000001" width="138.82600000000005" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="220.83699999999988" y="560.5500000000001" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">auto-dismiss (duration &gt; 0)</text>
 </g>
 <g class="edge-label" data-from="VISIBLE" data-to="LEAVING" data-label="manual dismiss(id) / close button">
-  <rect x="301.082" y="505.4000000000001" width="165.556" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
-  <text x="383.86" y="520.5500000000001" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">manual dismiss(id) / close button</text>
+  <rect x="294.2499999999999" y="505.4000000000001" width="165.556" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="377.0279999999999" y="520.5500000000001" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">manual dismiss(id) / close button</text>
 </g>
 <g class="edge-label" data-from="VISIBLE" data-to="VISIBLE" data-label="duration = 0 (persistent, waits for dismiss)">
   <rect x="44.019999999999996" y="412.8" width="207.73" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
   <text x="147.885" y="427.95" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">duration = 0 (persistent, waits for dismiss)</text>
 </g>
 <g class="edge-label" data-from="LEAVING" data-to="_end" data-label="exit animation finished (out_duration) → removed from list">
-  <rect x="168.91899999999995" y="690.6" width="273.66399999999993" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
-  <text x="305.7509999999999" y="705.75" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">exit animation finished (out_duration) → removed from list</text>
+  <rect x="240.24999999999991" y="690.6" width="273.66399999999993" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="377.0819999999999" y="705.75" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">exit animation finished (out_duration) → removed from list</text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="state-start">
-  <circle cx="305.919" cy="62" r="12" fill="var(--_text)" stroke="none" />
+  <circle cx="366.7534999999999" cy="62" r="12" fill="var(--_text)" stroke="none" />
 </g>
 <g class="node" data-id="ENTERING" data-label="ENTERING" data-shape="rounded">
-  <rect x="252.33999999999997" y="224.3" width="107.158" height="36.900000000000006" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
-  <text x="305.919" y="242.75" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">ENTERING</text>
+  <rect x="313.17449999999997" y="224.3" width="107.158" height="36.900000000000006" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="366.7535" y="242.75" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">ENTERING</text>
 </g>
 <g class="node" data-id="VISIBLE" data-label="VISIBLE" data-shape="rounded">
-  <rect x="259.75" y="409.5" width="92.338" height="36.900000000000006" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
-  <text x="305.919" y="427.95" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">VISIBLE</text>
+  <rect x="259.74999999999994" y="409.5" width="92.338" height="36.900000000000006" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="305.9189999999999" y="427.95" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">VISIBLE</text>
 </g>
 <g class="node" data-id="LEAVING" data-label="LEAVING" data-shape="rounded">
-  <rect x="256.78599999999994" y="594.7" width="98.266" height="36.900000000000006" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
-  <text x="305.9189999999999" y="613.1500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">LEAVING</text>
+  <rect x="328.1169999999999" y="594.7" width="98.266" height="36.900000000000006" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="377.2499999999999" y="613.1500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">LEAVING</text>
 </g>
 <g class="node" data-id="_end" data-label="" data-shape="state-end">
-  <circle cx="305.919" cy="793.9" r="12" fill="none" stroke="var(--_text)" stroke-width="1.5" />
-  <circle cx="305.919" cy="793.9" r="8" fill="var(--_text)" stroke="none" />
+  <circle cx="377.24999999999994" cy="793.9" r="12" fill="none" stroke="var(--_text)" stroke-width="1.5" />
+  <circle cx="377.24999999999994" cy="793.9" r="8" fill="var(--_text)" stroke="none" />
 </g>
 </svg>

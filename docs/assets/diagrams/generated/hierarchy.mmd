@@ -3,8 +3,9 @@ flowchart TD
   subgraph node_1["flet_toastify/"]
     direction TD
     node_2["flet_toastify/models.py<br/>classes: Toast"]:::module
-    node_3["flet_toastify/style.py<br/>classes: ToastStyle"]:::module
-    node_4["flet_toastify/types.py<br/>classes: ToastType, ToastPhase, Position"]:::module
+    node_3["flet_toastify/state.py<br/>classes: Toasts"]:::module
+    node_4["flet_toastify/style.py<br/>classes: ToastStyle"]:::module
+    node_5["flet_toastify/types.py<br/>classes: ToastType, ToastPhase, Position"]:::module
   end
 
   classDef module fill:#f8fafc,stroke:#94a3b8,color:#111827

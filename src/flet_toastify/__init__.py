@@ -10,6 +10,8 @@ Usage follows the pattern popularized by react-toastify/sonner::
 
 from importlib.metadata import version
 
+from flet_toastify.state import Toasts, toast
+
 __version__ = version("flet-toastify")
 
-__all__: list[str] = []
+__all__: list[str] = ["Toasts", "toast"]
