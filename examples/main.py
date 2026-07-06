@@ -23,7 +23,7 @@ MESSAGES = [
     "Hello World",
     "What's up, bro?",
     "Superman < Goku!",
-    "Commit your work to the LORD, and your plans will succeed. Proverbs 16: 3",
+    "Proverbs 16: 3",
 ]
 
 LEFT_STYLE = ToastStyle(

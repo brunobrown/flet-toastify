@@ -60,6 +60,12 @@ class Toast:
     style: ToastStyle | None = None
     """Per-toast style override; ``None`` uses the toaster's style."""
 
+    paused: bool = False
+    """Whether the auto-dismiss countdown is paused (e.g. pointer hover)."""
+
+    remaining_ms: int | None = None
+    """Auto-dismiss time left at the last pause; ``None`` if never paused."""
+
     def __post_init__(self) -> None:
         """Validate field invariants after initialization."""
         if self.duration_ms < 0:
@@ -77,3 +83,26 @@ class Toast:
             A new :class:`Toast` identical to this one except for ``phase``.
         """
         return replace(self, phase=phase)
+
+    def with_pause(self, remaining_ms: int) -> Toast:
+        """Return a paused copy of this toast.
+
+        Args:
+            remaining_ms: Auto-dismiss time left when the pause happened.
+
+        Returns:
+            A new :class:`Toast` with ``paused=True`` and the given
+            ``remaining_ms``.
+        """
+        return replace(self, paused=True, remaining_ms=remaining_ms)
+
+    def with_resume(self) -> Toast:
+        """Return a resumed copy of this toast.
+
+        ``remaining_ms`` is kept so the UI can finish its countdown
+        animation over the remaining time.
+
+        Returns:
+            A new :class:`Toast` with ``paused=False``.
+        """
+        return replace(self, paused=False)

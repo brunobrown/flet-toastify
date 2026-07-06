@@ -41,6 +41,8 @@ ft.run(lambda page: page.render(App))
 
 Auto-dismiss toasts display a shrinking time-left progress bar (colored per
 toast type) by default — disable it with `ToastStyle(show_progress=False)`.
+Hovering a toast pauses its countdown (bar freezes); moving the pointer away
+resumes it. Message text is selectable.
 
 ## Advanced: explicit instances
 

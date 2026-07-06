@@ -13,6 +13,7 @@ the pattern of react-toastify and sonner.
 """
 
 import asyncio
+import time
 from collections.abc import Callable
 
 import flet as ft
@@ -28,6 +29,11 @@ type CancelTimer = Callable[[], None]
 
 type Scheduler = Callable[[float, Callable[[], None]], CancelTimer]
 """Schedules ``callback`` after ``delay_ms`` milliseconds; returns a canceller."""
+
+
+def _monotonic_ms() -> float:
+    """Return a monotonic timestamp in milliseconds."""
+    return time.monotonic() * 1000
 
 
 def _asyncio_scheduler(delay_ms: float, callback: Callable[[], None]) -> CancelTimer:
@@ -58,6 +64,9 @@ class Toasts(ft.Observable):
         scheduler: Timer factory used for phase transitions and auto-dismiss.
             Defaults to asyncio-based timers; inject a fake in tests for
             deterministic control of time.
+        clock: Millisecond timestamp source used to compute the remaining
+            auto-dismiss time on :meth:`pause`. Defaults to a monotonic
+            clock; inject one consistent with ``scheduler`` in tests.
     """
 
     def __init__(
@@ -65,11 +74,15 @@ class Toasts(ft.Observable):
         style: ToastStyle | None = None,
         *,
         scheduler: Scheduler | None = None,
+        clock: Callable[[], float] | None = None,
     ) -> None:
         self.toasts: list[Toast] = []
         self.style = style or ToastStyle()
         self._scheduler: Scheduler = scheduler or _asyncio_scheduler
+        self._clock: Callable[[], float] = clock or _monotonic_ms
         self._cancellers: dict[str, list[CancelTimer]] = {}
+        self._auto_dismiss: dict[str, CancelTimer] = {}
+        self._deadlines: dict[str, float] = {}
 
     def show(
         self,
@@ -163,14 +176,51 @@ class Toasts(ft.Observable):
             return
         index, existing = found
         self._cancel_timers(toast_id)
+        self._cancel_auto_dismiss(toast_id)
         self.toasts[index] = existing.with_phase(ToastPhase.LEAVING)
         out_duration = self._style_for(existing).out_duration
         self._add_timer(toast_id, out_duration, lambda: self._remove(toast_id))
+
+    def pause(self, toast_id: str) -> None:
+        """Pause the auto-dismiss countdown of a toast (e.g. on hover).
+
+        Cancels the pending auto-dismiss timer and records the remaining
+        time on the toast, so the UI can freeze its progress bar. No-op for
+        unknown ids, persistent toasts, already-paused or leaving toasts.
+
+        Args:
+            toast_id: Id returned by :meth:`show`.
+        """
+        found = self._find(toast_id)
+        if found is None or toast_id not in self._auto_dismiss:
+            return
+        index, existing = found
+        remaining = max(int(self._deadlines[toast_id] - self._clock()), 0)
+        self._cancel_auto_dismiss(toast_id)
+        self.toasts[index] = existing.with_pause(remaining)
+
+    def resume(self, toast_id: str) -> None:
+        """Resume the auto-dismiss countdown of a paused toast.
+
+        Reschedules dismissal for the recorded remaining time. No-op when
+        the toast is unknown, not paused, or already leaving.
+
+        Args:
+            toast_id: Id returned by :meth:`show`.
+        """
+        found = self._find(toast_id)
+        if found is None or not found[1].paused or found[1].phase is ToastPhase.LEAVING:
+            return
+        index, existing = found
+        self.toasts[index] = existing.with_resume()
+        self._schedule_auto_dismiss(toast_id, existing.remaining_ms or 0)
 
     def clear(self) -> None:
         """Remove all toasts immediately, cancelling every pending timer."""
         for toast_id in list(self._cancellers):
             self._cancel_timers(toast_id)
+        for toast_id in list(self._auto_dismiss):
+            self._cancel_auto_dismiss(toast_id)
         self.toasts.clear()
 
     def _schedule_lifecycle(self, new_toast: Toast) -> None:
@@ -183,11 +233,19 @@ class Toasts(ft.Observable):
             lambda: self._set_phase(toast_id, ToastPhase.VISIBLE),
         )
         if new_toast.duration_ms > 0:
-            self._add_timer(
-                toast_id,
-                style.in_duration + new_toast.duration_ms,
-                lambda: self.dismiss(toast_id),
-            )
+            self._schedule_auto_dismiss(toast_id, style.in_duration + new_toast.duration_ms)
+
+    def _schedule_auto_dismiss(self, toast_id: str, delay_ms: float) -> None:
+        """Schedule dismissal of a toast, tracking its deadline for pauses."""
+        self._deadlines[toast_id] = self._clock() + delay_ms
+        self._auto_dismiss[toast_id] = self._scheduler(delay_ms, lambda: self.dismiss(toast_id))
+
+    def _cancel_auto_dismiss(self, toast_id: str) -> None:
+        """Cancel and forget the pending auto-dismiss timer of a toast."""
+        cancel = self._auto_dismiss.pop(toast_id, None)
+        if cancel is not None:
+            cancel()
+        self._deadlines.pop(toast_id, None)
 
     def _style_for(self, target: Toast) -> ToastStyle:
         """Return the effective style of a toast (per-toast override or default)."""
@@ -219,6 +277,7 @@ class Toasts(ft.Observable):
     def _remove(self, toast_id: str) -> None:
         """Remove a toast from the list and drop its timer registry."""
         self._cancel_timers(toast_id)
+        self._cancel_auto_dismiss(toast_id)
         found = self._find(toast_id)
         if found is not None:
             del self.toasts[found[0]]

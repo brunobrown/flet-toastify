@@ -186,6 +186,141 @@ class TestDismiss:
         assert toasts.toasts == []
 
 
+class TestPauseResume:
+    def _toasts(self, scheduler):
+        style = ToastStyle(in_duration=100, out_duration=50)
+        return Toasts(style=style, scheduler=scheduler, clock=lambda: scheduler.now)
+
+    def test_pause_stops_auto_dismiss(self, scheduler):
+        toasts = self._toasts(scheduler)
+        toast_id = toasts.show("hello", duration=1000)
+        scheduler.advance(600)
+
+        toasts.pause(toast_id)
+        scheduler.advance(10_000)
+
+        assert len(toasts.toasts) == 1
+        assert toasts.toasts[0].paused is True
+        assert toasts.toasts[0].phase is ToastPhase.VISIBLE
+
+    def test_pause_records_remaining_time(self, scheduler):
+        toasts = self._toasts(scheduler)
+        toast_id = toasts.show("hello", duration=1000)
+        scheduler.advance(600)
+
+        toasts.pause(toast_id)
+
+        # auto-dismiss was due at in_duration + duration = 1100
+        assert toasts.toasts[0].remaining_ms == 500
+
+    def test_resume_continues_from_remaining_time(self, scheduler):
+        toasts = self._toasts(scheduler)
+        toast_id = toasts.show("hello", duration=1000)
+        scheduler.advance(600)
+        toasts.pause(toast_id)
+        scheduler.advance(5_000)
+
+        toasts.resume(toast_id)
+
+        assert toasts.toasts[0].paused is False
+        scheduler.advance(499)
+        assert toasts.toasts[0].phase is ToastPhase.VISIBLE
+        scheduler.advance(1)
+        assert toasts.toasts[0].phase is ToastPhase.LEAVING
+
+    def test_pause_is_noop_for_persistent_toast(self, scheduler):
+        toasts = self._toasts(scheduler)
+        toast_id = toasts.show("pinned", duration=0)
+        scheduler.advance(100)
+
+        toasts.pause(toast_id)
+
+        assert toasts.toasts[0].paused is False
+
+    def test_pause_unknown_id_is_a_noop(self, scheduler):
+        toasts = self._toasts(scheduler)
+        toasts.show("hello")
+
+        toasts.pause("missing")
+
+        assert toasts.toasts[0].paused is False
+
+    def test_pause_twice_is_idempotent(self, scheduler):
+        toasts = self._toasts(scheduler)
+        toast_id = toasts.show("hello", duration=1000)
+        scheduler.advance(600)
+
+        toasts.pause(toast_id)
+        scheduler.advance(300)
+        toasts.pause(toast_id)
+
+        assert toasts.toasts[0].remaining_ms == 500
+
+    def test_resume_without_pause_is_a_noop(self, scheduler):
+        toasts = self._toasts(scheduler)
+        toast_id = toasts.show("hello", duration=1000)
+
+        toasts.resume(toast_id)
+
+        assert toasts.toasts[0].paused is False
+        scheduler.advance(1100)
+        assert toasts.toasts[0].phase is ToastPhase.LEAVING
+
+    def test_resume_after_dismiss_does_not_reschedule(self, scheduler):
+        toasts = self._toasts(scheduler)
+        toast_id = toasts.show("hello", duration=1000)
+        scheduler.advance(600)
+        toasts.pause(toast_id)
+        toasts.dismiss(toast_id)
+
+        toasts.resume(toast_id)
+
+        assert toasts.toasts[0].phase is ToastPhase.LEAVING
+        assert toasts.toasts[0].paused is True
+        scheduler.advance(50)
+        assert toasts.toasts == []
+        assert scheduler.pending == []
+
+    def test_dismiss_while_paused_removes_the_toast(self, scheduler):
+        toasts = self._toasts(scheduler)
+        toast_id = toasts.show("hello", duration=1000)
+        scheduler.advance(600)
+        toasts.pause(toast_id)
+
+        toasts.dismiss(toast_id)
+        scheduler.advance(50)
+
+        assert toasts.toasts == []
+
+    def test_clear_while_paused_removes_everything(self, scheduler):
+        toasts = self._toasts(scheduler)
+        toasts.show("a", duration=1000)
+        toasts.show("b", duration=1000)
+        scheduler.advance(600)
+        toasts.pause(toasts.toasts[0].id)
+
+        toasts.clear()
+        scheduler.advance(10_000)
+
+        assert toasts.toasts == []
+        assert scheduler.pending == []
+
+    def test_pause_and_resume_notify_subscribers(self, scheduler):
+        toasts = self._toasts(scheduler)
+        toast_id = toasts.show("hello", duration=1000)
+        scheduler.advance(600)
+        events = []
+
+        def listener(sender, field):
+            events.append(field)
+
+        toasts.subscribe(listener)
+        toasts.pause(toast_id)
+        toasts.resume(toast_id)
+
+        assert events == ["toasts", "toasts"]
+
+
 class TestClear:
     def test_clear_removes_all_toasts(self, scheduler):
         toasts = Toasts(scheduler=scheduler)

@@ -112,6 +112,40 @@ class TestToastPhaseTransition:
         assert toast.phase is ToastPhase.ENTERING
 
 
+class TestToastPauseTransitions:
+    def test_new_toast_is_not_paused(self):
+        toast = Toast("hello")
+
+        assert toast.paused is False
+        assert toast.remaining_ms is None
+
+    def test_with_pause_records_remaining_time(self):
+        toast = Toast("hello", duration_ms=3000)
+
+        paused = toast.with_pause(1200)
+
+        assert paused.paused is True
+        assert paused.remaining_ms == 1200
+        assert paused.id == toast.id
+        assert toast.paused is False
+
+    def test_with_resume_keeps_remaining_time(self):
+        toast = Toast("hello", duration_ms=3000).with_pause(1200)
+
+        resumed = toast.with_resume()
+
+        assert resumed.paused is False
+        assert resumed.remaining_ms == 1200
+
+    def test_with_phase_preserves_pause_state(self):
+        toast = Toast("hello").with_pause(500)
+
+        leaving = toast.with_phase(ToastPhase.LEAVING)
+
+        assert leaving.paused is True
+        assert leaving.remaining_ms == 500
+
+
 class TestToastImmutability:
     def test_toast_is_frozen(self):
         toast = Toast("hello")

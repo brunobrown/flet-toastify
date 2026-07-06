@@ -160,6 +160,10 @@ def progress_visual(toast: Toast, style: ToastStyle, settled: bool) -> ProgressV
     when the auto-dismiss timer fires (entrance duration plus toast
     duration, minus the settle delay that triggers the shrink).
 
+    While the toast is paused (see :meth:`~flet_toastify.state.Toasts.pause`)
+    the bar freezes at the fraction of lifetime left; on resume it shrinks
+    to zero over the recorded remaining time.
+
     Args:
         toast: Toast being rendered.
         style: Effective style of the card.
@@ -171,7 +175,16 @@ def progress_visual(toast: Toast, style: ToastStyle, settled: bool) -> ProgressV
     """
     if not style.show_progress or toast.duration_ms <= 0:
         return None
-    remaining_ms = max(style.in_duration + toast.duration_ms - SETTLE_DELAY_MS, 1)
+    total_ms = max(style.in_duration + toast.duration_ms - SETTLE_DELAY_MS, 1)
+    if toast.paused:
+        fraction = min((toast.remaining_ms or 0) / total_ms, 1.0)
+        return ProgressVisual(
+            width=style.width * fraction,
+            height=style.progress_height,
+            color=style.progress_color_for(toast.type),
+            animate=ft.Animation(1, ft.AnimationCurve.LINEAR),
+        )
+    remaining_ms = total_ms if toast.remaining_ms is None else max(toast.remaining_ms, 1)
     return ProgressVisual(
         width=0 if settled else style.width,
         height=style.progress_height,
@@ -209,11 +222,18 @@ def build_progress_bar(
     )
 
 
+def _noop() -> None:
+    """Do nothing; default for optional card callbacks."""
+
+
 def build_card(
     toast: Toast,
     style: ToastStyle,
     settled: bool,
     on_dismiss: Callable[[], None],
+    *,
+    on_pause: Callable[[], None] = _noop,
+    on_resume: Callable[[], None] = _noop,
 ) -> ft.Container:
     """Build the visual card control for a toast.
 
@@ -222,6 +242,8 @@ def build_card(
         style: Effective style of the card.
         settled: Whether the card already flipped to its resting visuals.
         on_dismiss: Invoked when the close button is clicked.
+        on_pause: Invoked when the pointer enters the card (hover start).
+        on_resume: Invoked when the pointer leaves the card (hover end).
 
     Returns:
         A ``ft.Container`` with icon, content, close button, an optional
@@ -233,7 +255,12 @@ def build_card(
     if isinstance(toast.content, ft.Control):
         body = toast.content
     else:
-        body = ft.Text(toast.content, color=style.text_color_for(toast.type), expand=True)
+        body = ft.Text(
+            toast.content,
+            color=style.text_color_for(toast.type),
+            expand=True,
+            selectable=True,
+        )
     content_layer = ft.Container(
         left=0,
         top=0,
@@ -270,6 +297,7 @@ def build_card(
         animate_opacity=visual.animate_opacity,
         animate_scale=visual.animate_scale,
         animate_offset=visual.animate_offset,
+        on_hover=lambda e: on_pause() if e.data else on_resume(),
         content=ft.Stack(layers),
     )
 
@@ -336,7 +364,14 @@ def ToastCard(
         set_settled(True)  # ty: ignore[invalid-argument-type]
 
     ft.use_effect(settle)
-    return build_card(toast, style, settled, lambda: toasts.dismiss(toast.id))
+    return build_card(
+        toast,
+        style,
+        settled,
+        lambda: toasts.dismiss(toast.id),
+        on_pause=lambda: toasts.pause(toast.id),
+        on_resume=lambda: toasts.resume(toast.id),
+    )
 
 
 @ft.component

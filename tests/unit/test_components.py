@@ -1,6 +1,7 @@
 """Unit tests for the pure UI-building functions in ``flet_toastify.components``."""
 
 from collections.abc import Callable
+from types import SimpleNamespace
 from typing import cast
 
 import flet as ft
@@ -175,6 +176,7 @@ class TestBuildCard:
         assert body.value == "hello"
         assert body.color == STYLE.text_color_for(ToastType.ERROR)
         assert body.expand is True
+        assert body.selectable is True
 
     def test_control_content_is_used_as_is(self):
         custom = ft.Text("custom")
@@ -195,6 +197,24 @@ class TestBuildCard:
         handler = cast("Callable[[object], None]", close.on_click)
         handler(None)
         assert dismissed == [True]
+
+    def test_hover_enter_pauses_and_exit_resumes(self):
+        calls = []
+        toast = Toast("hello")
+
+        card = build_card(
+            toast,
+            STYLE,
+            True,
+            lambda: None,
+            on_pause=lambda: calls.append("pause"),
+            on_resume=lambda: calls.append("resume"),
+        )
+
+        hover = cast("Callable[[object], None]", card.on_hover)
+        hover(SimpleNamespace(data=True))
+        hover(SimpleNamespace(data=False))
+        assert calls == ["pause", "resume"]
 
     def test_card_applies_visual_state_for_phase(self):
         toast = Toast("hello")
@@ -260,6 +280,33 @@ class TestProgressVisual:
 
         assert visual is not None
         assert visual.animate.duration == 1
+
+    def test_paused_toast_freezes_bar_at_remaining_fraction(self):
+        total = STYLE.in_duration + 3000 - SETTLE_DELAY_MS
+        toast = Toast("hello", duration_ms=3000).with_pause(1500)
+
+        visual = progress_visual(toast, STYLE, settled=True)
+
+        assert visual is not None
+        assert visual.width == STYLE.width * 1500 / total
+        assert visual.animate == ft.Animation(1, ft.AnimationCurve.LINEAR)
+
+    def test_paused_fraction_is_clamped_to_full_width(self):
+        toast = Toast("hello", duration_ms=3000).with_pause(999_999)
+
+        visual = progress_visual(toast, STYLE, settled=True)
+
+        assert visual is not None
+        assert visual.width == STYLE.width
+
+    def test_resumed_toast_shrinks_over_remaining_time(self):
+        toast = Toast("hello", duration_ms=3000).with_pause(1500).with_resume()
+
+        visual = progress_visual(toast, STYLE, settled=True)
+
+        assert visual is not None
+        assert visual.width == 0
+        assert visual.animate == ft.Animation(1500, ft.AnimationCurve.LINEAR)
 
 
 class TestBuildProgressBar:
