@@ -39,6 +39,29 @@ def App():
 ft.run(lambda page: page.render(App))
 ```
 
+## Advanced: explicit instances
+
+For multiple toasters (or dependency injection in tests), create explicit
+`Toasts` instances and bind each `Toaster` to one:
+
+```python
+from flet_toastify import Position, Toaster, Toasts, ToastType
+
+left = Toasts()
+right = Toasts()
+
+# in the component tree:
+Toaster(left, position=Position.TOP_LEFT)
+Toaster(right, position=Position.TOP_RIGHT)
+
+# in event handlers:
+left.success("saved!")
+right.show("heads up", type=ToastType.WARNING, duration=0)  # persistent
+```
+
+A full demo (global object + two custom-styled toasters) lives in
+[`examples/main.py`](https://github.com/brunobrown/flet-toastify/blob/main/examples/main.py).
+
 ## Quality
 
 - `uv run task quality` — format, lint, complexity, typecheck and tests (100% coverage)
