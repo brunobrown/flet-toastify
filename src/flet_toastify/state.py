@@ -15,6 +15,7 @@ the pattern of react-toastify and sonner.
 import asyncio
 import time
 from collections.abc import Callable
+from typing import TypeAlias
 
 import flet as ft
 
@@ -24,10 +25,10 @@ from flet_toastify.types import ToastPhase, ToastType
 
 __all__ = ["Scheduler", "Toasts", "toast"]
 
-type CancelTimer = Callable[[], None]
+CancelTimer: TypeAlias = Callable[[], None]
 """Cancels a previously scheduled callback."""
 
-type Scheduler = Callable[[float, Callable[[], None]], CancelTimer]
+Scheduler: TypeAlias = Callable[[float, Callable[[], None]], CancelTimer]
 """Schedules ``callback`` after ``delay_ms`` milliseconds; returns a canceller."""
 
 

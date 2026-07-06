@@ -7,7 +7,7 @@ license = { file = "LICENSE" }
 authors = [
     { name = "Bruno Brown", email = "brunobrown.86@gmail.com" },
 ]
-requires-python = ">=3.14"
+requires-python = ">=3.11"
 dependencies = [
     "flet>=0.85.3",
 ]
@@ -17,6 +17,9 @@ classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Software Development :: User Interfaces",
@@ -70,7 +73,7 @@ addopts = [
 
 [tool.ruff]
 extend-exclude = ["__pycache__"]
-target-version = "py314"
+target-version = "py311"
 line-length = 100
 src = ["src", "tests"]
 

@@ -5,9 +5,9 @@ flowchart TB
     end
 
     subgraph fts["flet_toastify"]
-        facade["toast (default Toasts instance)<br/>show / info / success / warning / error / dismiss / clear"]
-        state["Toasts (@ft.observable)<br/>Toast list + asyncio timers"]
-        style_["ToastStyle<br/>dimensions, animations, per-type colors/icons"]
+        facade["toast (default Toasts instance)<br/>show / info / success / warning / error<br/>dismiss / clear / pause / resume"]
+        state["Toasts (@ft.observable)<br/>Toast list + asyncio timers + monotonic clock"]
+        style_["ToastStyle<br/>dimensions, animations, progress bar, per-type colors/icons"]
         domain["Domain<br/>Toast, ToastType, ToastPhase, Position"]
         toaster["Toaster (@ft.component)"]
         card["ToastCard (@ft.component)"]
@@ -21,3 +21,4 @@ flowchart TB
     toaster -->|renders N| card
     card -->|"resolves style"| style_
     card -->|"close button → dismiss(id)"| state
+    card -->|"hover → pause(id) / resume(id)"| state

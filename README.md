@@ -2,7 +2,7 @@
 
 **Toast-style notifications for Flet apps — declarative, animated, and fully customizable.**
 
-![Python](https://img.shields.io/badge/python-3.14+-3776AB?logo=python&logoColor=white)
+![Python](https://img.shields.io/badge/python-3.11+-3776AB?logo=python&logoColor=white)
 ![Flet](https://img.shields.io/badge/flet-0.85.3+-00B4D8?logo=flet)
 [![Docs](https://img.shields.io/badge/docs-zensical-blue)](https://brunobrown.github.io/flet-toastify)
 ![License](https://img.shields.io/badge/license-MIT-yellow)
@@ -77,7 +77,16 @@ uv add flet-toastify
 pip install flet-toastify
 ```
 
-**Requirements:** Python 3.14+, Flet 0.85.3+
+```bash
+# From GitHub (latest development version)
+uv add flet-toastify@git+https://github.com/brunobrown/flet-toastify.git
+
+# or
+
+pip install git+https://github.com/brunobrown/flet-toastify.git
+```
+
+**Requirements:** Python 3.11+, Flet 0.85.3+
 
 ---
 
@@ -394,6 +403,14 @@ Contributions and feedback are welcome!
 3. Submit a pull request with detailed explanation
 
 For feedback, [open an issue](https://github.com/brunobrown/flet-toastify/issues) with your suggestions.
+
+## Support the Project
+
+If you find this project useful, consider giving it a star on GitHub and supporting its development:
+
+<a href="https://www.buymeacoffee.com/brunobrown">
+<img src="https://www.buymeacoffee.com/assets/img/guidelines/download-assets-sm-1.svg" width="200" alt="Buy Me a Coffee">
+</a>
 
 ---
 ## Try flet-toastify today and give your Flet app beautiful, declarative toast notifications!
