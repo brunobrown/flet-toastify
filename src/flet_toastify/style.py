@@ -116,6 +116,12 @@ class ToastStyle:
     out_scale_curve: ft.AnimationCurve = ft.AnimationCurve.FAST_OUT_SLOWIN
     """Curve of the exit scale animation."""
 
+    show_progress: bool = True
+    """Whether auto-dismiss toasts display a shrinking time-left bar."""
+
+    progress_height: int = 4
+    """Height of the auto-dismiss progress bar, in logical pixels."""
+
     bgcolors: dict[ToastType, ft.ColorValue] = field(default_factory=_default_bgcolors)
     """Background color per toast type."""
 
@@ -127,6 +133,9 @@ class ToastStyle:
 
     text_colors: dict[ToastType, ft.ColorValue] = field(default_factory=_default_accent_colors)
     """Text color per toast type."""
+
+    progress_colors: dict[ToastType, ft.ColorValue] = field(default_factory=_default_accent_colors)
+    """Progress bar color per toast type."""
 
     def bgcolor_for(self, type: ToastType) -> ft.ColorValue:
         """Return the background color for a toast type.
@@ -175,3 +184,15 @@ class ToastStyle:
             missing from :attr:`text_colors`.
         """
         return self.text_colors.get(type, ft.Colors.PRIMARY)
+
+    def progress_color_for(self, type: ToastType) -> ft.ColorValue:
+        """Return the progress bar color for a toast type.
+
+        Args:
+            type: Toast type to resolve.
+
+        Returns:
+            The mapped color, or ``ft.Colors.PRIMARY`` when the type is
+            missing from :attr:`progress_colors`.
+        """
+        return self.progress_colors.get(type, ft.Colors.PRIMARY)

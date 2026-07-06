@@ -11,6 +11,13 @@ classDiagram
     +ft.Animation animate_offset
   }
 
+  class ProgressVisual {
+    +float width
+    +int height
+    +ft.ColorValue color
+    +ft.Animation animate
+  }
+
   class Toast {
     +str | ft.Control content
     +ToastType type
@@ -52,14 +59,18 @@ classDiagram
     +ft.AnimationCurve out_opacity_curve
     +float out_scale
     +ft.AnimationCurve out_scale_curve
+    +bool show_progress
+    +int progress_height
     +dict~ToastType, ft.ColorValue~ bgcolors
     +dict~ToastType, ft.IconData~ icons
     +dict~ToastType, ft.ColorValue~ icon_colors
     +dict~ToastType, ft.ColorValue~ text_colors
+    +dict~ToastType, ft.ColorValue~ progress_colors
     +bgcolor_for(type)
     +icon_for(type)
     +icon_color_for(type)
     +text_color_for(type)
+    +progress_color_for(type)
   }
 
   class Position {

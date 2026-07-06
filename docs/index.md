@@ -39,6 +39,9 @@ def App():
 ft.run(lambda page: page.render(App))
 ```
 
+Auto-dismiss toasts display a shrinking time-left progress bar (colored per
+toast type) by default — disable it with `ToastStyle(show_progress=False)`.
+
 ## Advanced: explicit instances
 
 For multiple toasters (or dependency injection in tests), create explicit

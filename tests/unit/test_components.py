@@ -7,13 +7,17 @@ import flet as ft
 import pytest
 
 from flet_toastify.components import (
+    SETTLE_DELAY_MS,
     CardVisual,
+    ProgressVisual,
     ToastCard,
     Toaster,
     build_card,
+    build_progress_bar,
     card_offset_px,
     card_visual,
     position_wrapper,
+    progress_visual,
     row_alignment,
     stack_coordinates,
 )
@@ -28,6 +32,34 @@ def content_row(container: ft.Container) -> ft.Row:
     """Return the container's content, narrowed to the expected ft.Row."""
     assert isinstance(container.content, ft.Row)
     return container.content
+
+
+def card_layers(card: ft.Container) -> list[ft.Control]:
+    """Return the layers of a card's inner stack (content layer + optional bar)."""
+    assert isinstance(card.content, ft.Stack)
+    return card.content.controls
+
+
+def card_body(card: ft.Container) -> ft.Container:
+    """Return the padded content layer of a card, narrowed to ft.Container."""
+    body = card_layers(card)[0]
+    assert isinstance(body, ft.Container)
+    return body
+
+
+def card_row(card: ft.Container) -> ft.Row:
+    """Return the icon/content/close row of a card."""
+    return content_row(card_body(card))
+
+
+def card_progress(card: ft.Container) -> ft.Container | None:
+    """Return the card's progress bar layer, or ``None`` when absent."""
+    layers = card_layers(card)
+    if len(layers) < 2:
+        return None
+    bar = layers[1]
+    assert isinstance(bar, ft.Container)
+    return bar
 
 
 class TestCardOffsetPx:
@@ -126,13 +158,14 @@ class TestBuildCard:
         assert card.height == STYLE.height
         assert card.width == STYLE.width
         assert card.border_radius == STYLE.border_radius
-        assert card.padding == STYLE.padding
+        assert card.clip_behavior is ft.ClipBehavior.ANTI_ALIAS
         assert card.bgcolor == STYLE.bgcolor_for(ToastType.SUCCESS)
+        assert card_body(card).padding == STYLE.padding
 
     def test_string_content_becomes_text_with_type_color(self):
         toast = Toast("hello", type=ToastType.ERROR)
 
-        row = content_row(self._card(toast))
+        row = card_row(self._card(toast))
 
         icon, body, close = row.controls
         assert isinstance(icon, ft.Icon)
@@ -147,7 +180,7 @@ class TestBuildCard:
         custom = ft.Text("custom")
         toast = Toast(custom)
 
-        row = content_row(self._card(toast))
+        row = card_row(self._card(toast))
 
         assert row.controls[1] is custom
 
@@ -155,7 +188,7 @@ class TestBuildCard:
         dismissed = []
         toast = Toast("hello")
 
-        row = content_row(self._card(toast, on_dismiss=lambda: dismissed.append(True)))
+        row = card_row(self._card(toast, on_dismiss=lambda: dismissed.append(True)))
 
         close = row.controls[2]
         assert isinstance(close, ft.IconButton)
@@ -175,6 +208,105 @@ class TestBuildCard:
         assert card.animate_opacity == visual.animate_opacity
         assert card.animate_scale == visual.animate_scale
         assert card.animate_offset == visual.animate_offset
+
+
+class TestProgressVisual:
+    def test_persistent_toast_has_no_progress(self):
+        toast = Toast("pinned", duration_ms=0)
+
+        assert progress_visual(toast, STYLE, settled=False) is None
+
+    def test_disabled_progress_has_no_progress(self):
+        toast = Toast("hello")
+        style = ToastStyle(show_progress=False)
+
+        assert progress_visual(toast, style, settled=False) is None
+
+    def test_not_settled_starts_at_full_width(self):
+        toast = Toast("hello", duration_ms=3000)
+
+        visual = progress_visual(toast, STYLE, settled=False)
+
+        assert visual is not None
+        assert visual.width == STYLE.width
+
+    def test_settled_shrinks_to_zero_over_remaining_lifetime(self):
+        toast = Toast("hello", duration_ms=3000)
+
+        visual = progress_visual(toast, STYLE, settled=True)
+
+        expected_ms = STYLE.in_duration + 3000 - SETTLE_DELAY_MS
+        assert visual == ProgressVisual(
+            width=0,
+            height=STYLE.progress_height,
+            color=STYLE.progress_color_for(ToastType.INFO),
+            animate=ft.Animation(expected_ms, ft.AnimationCurve.LINEAR),
+        )
+
+    def test_color_and_height_come_from_style_and_type(self):
+        toast = Toast("boom", type=ToastType.ERROR, duration_ms=3000)
+
+        visual = progress_visual(toast, STYLE, settled=False)
+
+        assert visual is not None
+        assert visual.color == STYLE.progress_color_for(ToastType.ERROR)
+        assert visual.height == STYLE.progress_height
+
+    def test_animation_duration_never_drops_below_one_ms(self):
+        toast = Toast("fast", duration_ms=1)
+        style = ToastStyle(in_duration=1)
+
+        visual = progress_visual(toast, style, settled=True)
+
+        assert visual is not None
+        assert visual.animate.duration == 1
+
+
+class TestBuildProgressBar:
+    def test_returns_none_for_persistent_toast(self):
+        toast = Toast("pinned", duration_ms=0)
+
+        assert build_progress_bar(toast, STYLE, settled=False) is None
+
+    def test_bar_is_anchored_to_bottom_left(self):
+        toast = Toast("hello", duration_ms=3000)
+
+        bar = build_progress_bar(toast, STYLE, settled=False)
+
+        assert bar is not None
+        assert bar.bottom == 0
+        assert bar.left == 0
+        assert bar.height == STYLE.progress_height
+        assert bar.width == STYLE.width
+        assert bar.bgcolor == STYLE.progress_color_for(ToastType.INFO)
+        assert bar.animate == ft.Animation(STYLE.in_duration + 3000 - 50, ft.AnimationCurve.LINEAR)
+
+
+class TestBuildCardProgress:
+    def test_auto_dismiss_card_includes_progress_bar(self):
+        toast = Toast("hello", type=ToastType.ERROR, duration_ms=3000)
+
+        card = build_card(toast, STYLE, False, lambda: None)
+
+        bar = card_progress(card)
+        assert bar is not None
+        assert bar.bgcolor == STYLE.progress_color_for(ToastType.ERROR)
+
+    def test_persistent_card_has_no_progress_bar(self):
+        toast = Toast("pinned", duration_ms=0)
+
+        card = build_card(toast, STYLE, False, lambda: None)
+
+        assert card_progress(card) is None
+
+    def test_settled_card_bar_targets_zero_width(self):
+        toast = Toast("hello", duration_ms=3000)
+
+        card = build_card(toast, STYLE, True, lambda: None)
+
+        bar = card_progress(card)
+        assert bar is not None
+        assert bar.width == 0
 
 
 class TestPositionWrapper:

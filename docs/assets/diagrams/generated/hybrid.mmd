@@ -6,14 +6,16 @@ classDiagram
     <<module>>
     +module flet_toastify.components
     +class CardVisual
+    +class ProgressVisual
     +card_offset_px()
     +stack_coordinates()
     +row_alignment()
     +card_visual()
+    +progress_visual()
+    +build_progress_bar()
     +build_card()
     +position_wrapper()
-    +ToastCard()
-    +Toaster()
+    +... 2 more functions
   }
 
   class flet_toastify_models {
@@ -49,6 +51,13 @@ classDiagram
     +ft.Animation animate_opacity
     +ft.Animation animate_scale
     +ft.Animation animate_offset
+  }
+
+  class ProgressVisual {
+    +float width
+    +int height
+    +ft.ColorValue color
+    +ft.Animation animate
   }
 
   class Toast {
@@ -92,14 +101,18 @@ classDiagram
     +ft.AnimationCurve out_opacity_curve
     +float out_scale
     +ft.AnimationCurve out_scale_curve
+    +bool show_progress
+    +int progress_height
     +dict~ToastType, ft.ColorValue~ bgcolors
     +dict~ToastType, ft.IconData~ icons
     +dict~ToastType, ft.ColorValue~ icon_colors
     +dict~ToastType, ft.ColorValue~ text_colors
+    +dict~ToastType, ft.ColorValue~ progress_colors
     +bgcolor_for(type)
     +icon_for(type)
     +icon_color_for(type)
     +text_color_for(type)
+    +progress_color_for(type)
   }
 
   class Position {
@@ -125,6 +138,7 @@ classDiagram
   }
 
   flet_toastify_components ..> CardVisual
+  flet_toastify_components ..> ProgressVisual
   flet_toastify_models ..> Toast
   flet_toastify_state ..> Toasts
   flet_toastify_style ..> ToastStyle

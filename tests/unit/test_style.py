@@ -130,3 +130,27 @@ class TestToastStyleFallbacks:
         style = ToastStyle(text_colors={})
 
         assert style.text_color_for(ToastType.INFO) == ft.Colors.PRIMARY
+
+
+class TestToastStyleProgress:
+    def test_progress_is_enabled_by_default(self):
+        style = ToastStyle()
+
+        assert style.show_progress is True
+        assert style.progress_height == 4
+
+    def test_progress_can_be_disabled(self):
+        style = ToastStyle(show_progress=False)
+
+        assert style.show_progress is False
+
+    def test_default_progress_colors_match_accent_colors(self):
+        style = ToastStyle()
+
+        assert style.progress_colors == style.icon_colors
+
+    def test_progress_color_resolution_and_partial_override(self):
+        style = ToastStyle(progress_colors={ToastType.ERROR: ft.Colors.PURPLE_200})
+
+        assert style.progress_color_for(ToastType.ERROR) == ft.Colors.PURPLE_200
+        assert style.progress_color_for(ToastType.INFO) == ft.Colors.PRIMARY

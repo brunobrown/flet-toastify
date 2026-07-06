@@ -25,9 +25,11 @@ from flet_toastify.types import Position, ToastPhase
 
 __all__ = ["ToastCard", "Toaster"]
 
-_SETTLE_DELAY_S = 0.05
+SETTLE_DELAY_MS = 50
 """Delay before flipping a card to its resting visuals, letting the client
 paint the initial (start-of-animation) frame first."""
+
+_SETTLE_DELAY_S = SETTLE_DELAY_MS / 1000
 
 _ROW_ALIGNMENTS = {
     "left": ft.MainAxisAlignment.START,
@@ -134,6 +136,79 @@ def card_visual(phase: ToastPhase, settled: bool, style: ToastStyle) -> CardVisu
     )
 
 
+@dataclass(frozen=True)
+class ProgressVisual:
+    """Resolved visual properties of the auto-dismiss progress bar."""
+
+    width: float
+    """Bar width: full card width at start, ``0`` once settled."""
+
+    height: int
+    """Bar height, from :attr:`ToastStyle.progress_height`."""
+
+    color: ft.ColorValue
+    """Bar color for the toast type."""
+
+    animate: ft.Animation
+    """Linear animation covering the toast's remaining lifetime."""
+
+
+def progress_visual(toast: Toast, style: ToastStyle, settled: bool) -> ProgressVisual | None:
+    """Resolve the time-left progress bar visuals for a toast.
+
+    The bar renders at full width, then shrinks linearly to zero exactly
+    when the auto-dismiss timer fires (entrance duration plus toast
+    duration, minus the settle delay that triggers the shrink).
+
+    Args:
+        toast: Toast being rendered.
+        style: Effective style of the card.
+        settled: Whether the card already flipped to its resting visuals.
+
+    Returns:
+        The resolved bar visuals, or ``None`` for persistent toasts
+        (``duration_ms == 0``) and styles with ``show_progress=False``.
+    """
+    if not style.show_progress or toast.duration_ms <= 0:
+        return None
+    remaining_ms = max(style.in_duration + toast.duration_ms - SETTLE_DELAY_MS, 1)
+    return ProgressVisual(
+        width=0 if settled else style.width,
+        height=style.progress_height,
+        color=style.progress_color_for(toast.type),
+        animate=ft.Animation(remaining_ms, ft.AnimationCurve.LINEAR),
+    )
+
+
+def build_progress_bar(
+    toast: Toast,
+    style: ToastStyle,
+    settled: bool,
+) -> ft.Container | None:
+    """Build the shrinking time-left bar anchored to the card's bottom.
+
+    Args:
+        toast: Toast being rendered.
+        style: Effective style of the card.
+        settled: Whether the card already flipped to its resting visuals.
+
+    Returns:
+        The bar control, or ``None`` when the toast shows no progress bar
+        (see :func:`progress_visual`).
+    """
+    visual = progress_visual(toast, style, settled)
+    if visual is None:
+        return None
+    return ft.Container(
+        left=0,
+        bottom=0,
+        width=visual.width,
+        height=visual.height,
+        bgcolor=visual.color,
+        animate=visual.animate,
+    )
+
+
 def build_card(
     toast: Toast,
     style: ToastStyle,
@@ -149,8 +224,9 @@ def build_card(
         on_dismiss: Invoked when the close button is clicked.
 
     Returns:
-        A ``ft.Container`` with icon, content, close button, and animation
-        properties resolved from the toast phase and style.
+        A ``ft.Container`` with icon, content, close button, an optional
+        time-left progress bar, and animation properties resolved from the
+        toast phase and style.
     """
     visual = card_visual(toast.phase, settled, style)
     body: ft.Control
@@ -158,19 +234,12 @@ def build_card(
         body = toast.content
     else:
         body = ft.Text(toast.content, color=style.text_color_for(toast.type), expand=True)
-    return ft.Container(
-        key=toast.id,
-        height=style.height,
-        width=style.width,
-        bgcolor=style.bgcolor_for(toast.type),
-        border_radius=style.border_radius,
+    content_layer = ft.Container(
+        left=0,
+        top=0,
+        right=0,
+        bottom=0,
         padding=style.padding,
-        opacity=visual.opacity,
-        scale=visual.scale,
-        offset=visual.offset,
-        animate_opacity=visual.animate_opacity,
-        animate_scale=visual.animate_scale,
-        animate_offset=visual.animate_offset,
         content=ft.Row(
             [
                 ft.Icon(style.icon_for(toast.type), color=style.icon_color_for(toast.type)),
@@ -183,6 +252,25 @@ def build_card(
                 ),
             ]
         ),
+    )
+    progress_bar = build_progress_bar(toast, style, settled)
+    layers: list[ft.Control] = [content_layer]
+    if progress_bar is not None:
+        layers.append(progress_bar)
+    return ft.Container(
+        key=toast.id,
+        height=style.height,
+        width=style.width,
+        bgcolor=style.bgcolor_for(toast.type),
+        border_radius=style.border_radius,
+        clip_behavior=ft.ClipBehavior.ANTI_ALIAS,
+        opacity=visual.opacity,
+        scale=visual.scale,
+        offset=visual.offset,
+        animate_opacity=visual.animate_opacity,
+        animate_scale=visual.animate_scale,
+        animate_offset=visual.animate_offset,
+        content=ft.Stack(layers),
     )
 
 

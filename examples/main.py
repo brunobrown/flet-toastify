@@ -19,7 +19,12 @@ import flet as ft
 
 from flet_toastify import Position, Toaster, Toasts, ToastStyle, ToastType, toast
 
-MESSAGES = ["Hello World", "What's up, bro?", "Superman < Goku!", "Commit your work to the LORD, and your plans will succeed. Proverbs 16: 3"]
+MESSAGES = [
+    "Hello World",
+    "What's up, bro?",
+    "Superman < Goku!",
+    "Commit your work to the LORD, and your plans will succeed. Proverbs 16: 3",
+]
 
 LEFT_STYLE = ToastStyle(
     in_duration=200,
