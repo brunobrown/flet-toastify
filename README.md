@@ -4,6 +4,8 @@
 
 ![Python](https://img.shields.io/badge/python-3.11+-3776AB?logo=python&logoColor=white)
 ![Flet](https://img.shields.io/badge/flet-0.85.3+-00B4D8?logo=flet)
+[![CI](https://github.com/brunobrown/flet-toastify/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/brunobrown/flet-toastify/actions/workflows/main.yml)
+[![Dev](https://github.com/brunobrown/flet-toastify/actions/workflows/dev.yml/badge.svg?branch=dev)](https://github.com/brunobrown/flet-toastify/actions/workflows/dev.yml)
 [![Docs](https://img.shields.io/badge/docs-zensical-blue)](https://brunobrown.github.io/flet-toastify)
 ![License](https://img.shields.io/badge/license-MIT-yellow)
 

@@ -81,7 +81,7 @@ src = ["src", "tests"]
 quote-style = "double"
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "UP", "B", "N", "SIM", "C90"]
+select = ["E", "F", "I", "UP", "B", "N", "SIM", "C90", "S"]
 ignore = ["E501"]
 
 [tool.ruff.lint.mccabe]
@@ -90,7 +90,10 @@ max-complexity = 10
 [tool.ruff.lint.per-file-ignores]
 # Flet declarative components are PascalCase by convention (like React).
 "src/flet_toastify/components.py" = ["N802"]
-"examples/*.py" = ["N802"]
+# N802: PascalCase components; S311: demo uses random for messages, not crypto.
+"examples/*.py" = ["N802", "S311"]
+# S101: pytest asserts.
+"tests/*" = ["S101"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["flet_toastify"]

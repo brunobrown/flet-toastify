@@ -1,0 +1,193 @@
+name: Dev
+
+on:
+  push:
+    branches: [ dev ]
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: '3.14'
+
+jobs:
+  quality:
+    name: 🔍 Quality & Reports
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+
+      - name: 🐍 Setup uv
+        uses: astral-sh/setup-uv@e4db8464a088ece1b920f60402e813ea4de65b8f  # v4
+        with:
+          version: "0.10.10"
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: 📦 Install dependencies (uv)
+        run: uv sync --frozen
+
+      - name: 🧹 Code Quality - Ruff
+        id: ruff
+        run: |
+          uv tool run ruff format .
+          git diff --exit-code
+          uv tool run ruff check .
+
+      - name: 🦎 Complexity Check - Lizard
+        id: lizard
+        run: |
+          set -o pipefail
+
+          uv tool run lizard src tests -C 10 2>&1 | tee lizard.out
+
+      - name: 🦎 Complexity Summary
+        if: always()
+        run: |
+          {
+            echo "## 🦎 Complexity - Lizard"
+            echo ""
+
+            if [ ! -f lizard.out ]; then
+              echo "- (Não foi possível extrair o relatório do Lizard)"
+              exit 0
+            fi
+
+            TOTAL_LINE="$(grep -E '^[[:space:]]+[0-9]+[[:space:]]+[0-9.]+' lizard.out | tail -n1 || true)"
+
+            if [ -n "$TOTAL_LINE" ]; then
+              TOTAL_NLOC="$(echo "$TOTAL_LINE" | awk '{print $1}')"
+              AVG_NLOC="$(echo "$TOTAL_LINE" | awk '{print $2}')"
+              AVG_CCN="$(echo "$TOTAL_LINE" | awk '{print $3}')"
+              FUN_CNT="$(echo "$TOTAL_LINE" | awk '{print $5}')"
+              WARNING_CNT="$(echo "$TOTAL_LINE" | awk '{print $6}')"
+
+              echo "| Total NLOC | Avg NLOC | Avg CCN | Functions | Warnings |"
+              echo "|----------:|---------:|--------:|----------:|---------:|"
+              echo "| ${TOTAL_NLOC} | ${AVG_NLOC} | ${AVG_CCN} | ${FUN_CNT} | ${WARNING_CNT} |"
+              echo ""
+            fi
+
+            echo "### Funções acima do limite"
+            echo ""
+            echo '```text'
+            awk '
+              /Warnings \(cyclomatic_complexity/ { capture=1; next }
+              capture && /^=+/ { next }
+              capture && /^Total nloc/ { capture=0 }
+              capture && NF { print }
+            ' lizard.out
+            echo '```'
+            echo ""
+            echo "_Fonte: saída do comando \`lizard src tests -C 10\`._"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 🔎 Type Check - Ty
+        id: ty
+        run: uv tool run ty check
+
+      - name: 📝 Docstring Coverage
+        id: docstrings
+        run: |
+          set -o pipefail
+          uv run task docs-docstrings 2>&1 | tee docstrings.out
+
+      - name: 📝 Docstring Coverage Summary
+        if: always()
+        run: |
+          DOC_LINE="$(grep -E '^Docstring coverage:' -m1 docstrings.out || true)"
+          if [ -z "$DOC_LINE" ]; then
+            echo "## 📝 Docstring Coverage" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "- (Não foi possível extrair o resumo do relatório de docstrings)" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          COVER="$(echo "$DOC_LINE" | sed -E 's/^Docstring coverage: ([0-9.]+%).*/\1/')"
+          COUNTS="$(echo "$DOC_LINE" | sed -E 's/.*\(([0-9]+)\/([0-9]+), required ([0-9.]+%).*/\1 \2 \3/')"
+          DOCUMENTED="$(echo "$COUNTS" | awk '{print $1}')"
+          TOTAL="$(echo "$COUNTS" | awk '{print $2}')"
+          REQUIRED="$(echo "$COUNTS" | awk '{print $3}')"
+          {
+            echo "## 📝 Docstring Coverage"
+            echo ""
+            echo "| Documented | Total | Cover | Required |"
+            echo "|-----------:|------:|------:|---------:|"
+            echo "| ${DOCUMENTED} | ${TOTAL} | ${COVER} | ${REQUIRED} |"
+            echo ""
+            echo "_Fonte: saída do comando \`uv run task docs-docstrings\`._"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 📚 API Reference Coverage
+        id: api-reference
+        run: |
+          set -o pipefail
+          uv run task docs-api-reference 2>&1 | tee api-reference.out
+
+      - name: 📚 API Reference Coverage Summary
+        if: always()
+        run: |
+          API_REF_LINE="$(grep -E '^API Reference coverage:' -m1 api-reference.out || true)"
+          if [ -z "$API_REF_LINE" ]; then
+            echo "## 📚 API Reference Coverage" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "- (Não foi possível extrair o resumo do relatório de API Reference)" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          COUNTS="$(echo "$API_REF_LINE" | sed -E 's/^API Reference coverage: ([0-9]+)\/([0-9]+) public modules documented.*/\1 \2/')"
+          DOCUMENTED="$(echo "$COUNTS" | awk '{print $1}')"
+          TOTAL="$(echo "$COUNTS" | awk '{print $2}')"
+          {
+            echo "## 📚 API Reference Coverage"
+            echo ""
+            echo "| Documented modules | Public modules |"
+            echo "|-------------------:|---------------:|"
+            echo "| ${DOCUMENTED} | ${TOTAL} |"
+            echo ""
+            echo "_Fonte: saída do comando \`uv run task docs-api-reference\`._"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 🩺 Smoke Test (imports)
+        run: |
+          uv run python -c "
+          import sys
+          import flet_toastify
+          print('flet-toastify', flet_toastify.__version__)
+          print('exports:', ', '.join(flet_toastify.__all__))
+          sys.path.insert(0, 'examples')
+          import main  # noqa: F401 — validates the demo app builds
+          print('examples/main.py imports OK')
+          "
+
+      - name: ✅ Tests (pytest + cov)
+        id: tests
+        run: |
+          set -o pipefail
+          uv run pytest 2>&1 | tee pytest.out
+
+      - name: 📊 Coverage Summary
+        if: always()
+        run: |
+          COV_LINE="$(grep -E '^TOTAL' -m1 pytest.out || true)"
+          if [ -z "$COV_LINE" ]; then
+            echo "## 📊 Coverage" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "- (Não foi possível extrair a linha TOTAL do relatório de coverage)" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          STMS="$(echo "$COV_LINE" | awk '{print $2}')"
+          MISS="$(echo "$COV_LINE" | awk '{print $3}')"
+          COVER="$(echo "$COV_LINE" | awk '{print $4}')"
+
+          {
+            echo "## 📊 Coverage"
+            echo ""
+            echo "| Stmts | Miss | Cover |"
+            echo "|------:|-----:|------:|"
+            echo "| ${STMS} | ${MISS} | ${COVER} |"
+            echo ""
+            echo "_Fonte: linha \`TOTAL\` do \`pytest-cov\` (saída do job)._"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 🧹 Cleanup
+        if: always()
+        run: rm -f pytest.out lizard.out docstrings.out api-reference.out
