@@ -7,7 +7,7 @@ license = { file = "LICENSE" }
 authors = [
     { name = "Bruno Brown", email = "brunobrown.86@gmail.com" },
 ]
-requires-python = ">=3.14"
+requires-python = ">=3.11"
 dependencies = [
     "flet>=0.85.3",
 ]
@@ -17,6 +17,9 @@ classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Software Development :: User Interfaces",
@@ -70,7 +73,7 @@ addopts = [
 
 [tool.ruff]
 extend-exclude = ["__pycache__"]
-target-version = "py314"
+target-version = "py311"
 line-length = 100
 src = ["src", "tests"]
 
@@ -78,7 +81,7 @@ src = ["src", "tests"]
 quote-style = "double"
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "UP", "B", "N", "SIM", "C90"]
+select = ["E", "F", "I", "UP", "B", "N", "SIM", "C90", "S"]
 ignore = ["E501"]
 
 [tool.ruff.lint.mccabe]
@@ -87,7 +90,10 @@ max-complexity = 10
 [tool.ruff.lint.per-file-ignores]
 # Flet declarative components are PascalCase by convention (like React).
 "src/flet_toastify/components.py" = ["N802"]
-"examples/*.py" = ["N802"]
+# N802: PascalCase components; S311: demo uses random for messages, not crypto.
+"examples/*.py" = ["N802", "S311"]
+# S101: pytest asserts.
+"tests/*" = ["S101"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["flet_toastify"]

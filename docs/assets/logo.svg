@@ -1,13 +1,48 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#4f46e5"/>
+      <stop offset="0" stop-color="#5b54f0"/>
       <stop offset="1" stop-color="#7c3aed"/>
     </linearGradient>
   </defs>
-  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
-  <g transform="translate(100 112) scale(13)">
-    <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z" fill="#ffffff"/>
+
+  <!-- background -->
+  <rect x="0" y="0" width="512" height="512" rx="112" fill="url(#bg)"/>
+
+  <!-- toast card popping out (drawn first, partially hidden by toaster body) -->
+  <g transform="translate(256,178) rotate(-6)">
+    <rect x="-112" y="-84" width="224" height="190" rx="22" fill="#ffffff"/>
+    <circle cx="-70" cy="-38" r="25" fill="#22c55e"/>
+    <path d="M -82 -38 l 9 10 l 18 -20" fill="none" stroke="#ffffff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="-32" y="-54" width="118" height="14" rx="7" fill="#d9d7f5"/>
+    <rect x="-32" y="-28" width="82" height="14" rx="7" fill="#e7e6fa"/>
+    <rect x="-92" y="16" width="184" height="12" rx="6" fill="#ece9fc"/>
+    <rect x="-92" y="16" width="120" height="12" rx="6" fill="#ec4899"/>
   </g>
-  <circle cx="356" cy="148" r="56" fill="#ec4899" stroke="#ffffff" stroke-width="14"/>
+
+  <!-- motion lines -->
+  <path d="M 112 118 l -24 -20" stroke="#ffffff" stroke-width="12" stroke-linecap="round" opacity="0.9"/>
+  <path d="M 152 82 l -12 -28" stroke="#ffffff" stroke-width="12" stroke-linecap="round" opacity="0.9"/>
+  <path d="M 388 96 l 26 -18" stroke="#ffffff" stroke-width="12" stroke-linecap="round" opacity="0.9"/>
+
+  <!-- toaster body: wider at top shoulders, rounded, sits on bottom -->
+  <path d="M 100 322
+           q 0 -30 30 -30
+           h 252
+           q 30 0 30 30
+           v 92
+           q 0 26 -26 26
+           h -260
+           q -26 0 -26 -26
+           z" fill="#ffffff"/>
+
+  <!-- slot on the top edge -->
+  <rect x="152" y="286" width="208" height="13" rx="6.5" fill="#37309f"/>
+
+  <!-- lever on the right side -->
+  <rect x="404" y="336" width="34" height="18" rx="9" fill="#ec4899"/>
+
+  <!-- dial + feet details -->
+  <circle cx="150" cy="392" r="13" fill="#d9d7f5"/>
+  <rect x="188" y="386" width="96" height="12" rx="6" fill="#ece9fc"/>
 </svg>

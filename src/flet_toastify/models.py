@@ -6,6 +6,8 @@ the observable state layer trivially diffable by Flet's declarative
 renderer.
 """
 
+from __future__ import annotations
+
 import uuid
 from dataclasses import dataclass, field, replace
 

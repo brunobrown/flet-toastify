@@ -18,11 +18,12 @@ toast from any event handler automatically re-renders the `Toaster`.
 
 - **Facade** (`flet_toastify/__init__.py`): the global `toast` object — a
   default `Toasts` instance exported at module level — with
-  `show/info/success/warning/error/dismiss/clear` (react-toastify/sonner
-  pattern).
+  `show/info/success/warning/error/dismiss/clear/pause/resume`
+  (react-toastify/sonner pattern).
 - **State** (`state.py`): `Toasts` (`@ft.observable`) — the source of
-  truth; manages the toast list, auto-dismiss and phase transitions
-  with cancellable `asyncio` timers.
+  truth; manages the toast list, auto-dismiss, hover pause/resume and
+  phase transitions with cancellable `asyncio` timers and an injectable
+  monotonic clock.
 - **Domain** (`types.py`, `models.py`): `ToastType`, `ToastPhase`,
   `Position` (StrEnum) and the immutable `Toast` model.
 - **Style** (`style.py`): `ToastStyle` — dimensions, in/out animations
@@ -39,7 +40,9 @@ Every toast goes through a simple state machine:
 
 Transitions are driven by state (`Toasts`), never by the UI. Card
 enter/exit animations are derived from the current phase plus the active
-`ToastStyle`.
+`ToastStyle`. Auto-dismiss toasts also render a shrinking time-left
+progress bar; hovering a card pauses the countdown (the bar freezes) and
+leaving it resumes the remaining time.
 
 ## Dependencies
 

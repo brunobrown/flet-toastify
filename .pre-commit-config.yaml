@@ -12,21 +12,11 @@ repos:
       - id: ruff
       - id: ruff-format
 
-  - repo: https://github.com/PyCQA/bandit
-    rev: 1.7.9
-    hooks:
-      - id: bandit
-        args: ["-r", "src", "-ll"]
-        pass_filenames: false
-
   - repo: local
     hooks:
       - id: lizard-complexity
         name: lizard complexity
-        entry: >
-          uv tool run lizard src
-          -C 10
-          -x src/observability/*
+        entry: uv tool run lizard src tests -C 10
         language: system
         pass_filenames: false
 
@@ -36,12 +26,6 @@ repos:
         language: system
         pass_filenames: false
 
-#      - id: secrets-required-vars
-#        name: secrets required vars
-#        entry: uv run python scripts/check_secrets_required_variables.py
-#        language: system
-#        pass_filenames: false
-
       - id: docstring-coverage
         name: docstring coverage
         entry: uv run python scripts/check_docstring_coverage.py --paths src --fail-under 100
@@ -50,7 +34,7 @@ repos:
 
       - id: api-reference-coverage
         name: api reference coverage
-        entry: uv run python scripts/check_api_reference_coverage.py --root src --reference docs/reference/api.md --package src
+        entry: uv run python scripts/check_api_reference_coverage.py --root src/flet_toastify --reference docs/reference/api.md --package flet_toastify
         language: system
         pass_filenames: false
 
