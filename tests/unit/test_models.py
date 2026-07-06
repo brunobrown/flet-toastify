@@ -6,6 +6,7 @@ import flet as ft
 import pytest
 
 from flet_toastify.models import DEFAULT_DURATION_MS, Toast
+from flet_toastify.style import ToastStyle
 from flet_toastify.types import ToastPhase, ToastType
 
 
@@ -60,6 +61,28 @@ class TestToastDurationValidation:
         toast = Toast("hello", duration_ms=0)
 
         assert toast.duration_ms == 0
+
+
+class TestToastStyleField:
+    def test_style_defaults_to_none(self):
+        toast = Toast("hello")
+
+        assert toast.style is None
+
+    def test_accepts_custom_style(self):
+        style = ToastStyle(width=320)
+
+        toast = Toast("hello", style=style)
+
+        assert toast.style is style
+
+    def test_with_phase_preserves_style(self):
+        style = ToastStyle()
+        toast = Toast("hello", style=style)
+
+        leaving = toast.with_phase(ToastPhase.LEAVING)
+
+        assert leaving.style is style
 
 
 class TestToastPhaseTransition:

@@ -8,6 +8,12 @@ classDiagram
     +class Toast
   }
 
+  class flet_toastify_style {
+    <<module>>
+    +module flet_toastify.style
+    +class ToastStyle
+  }
+
   class flet_toastify_types {
     <<module>>
     +module flet_toastify.types
@@ -22,7 +28,39 @@ classDiagram
     +int duration_ms
     +ToastPhase phase
     +str id
+    +ToastStyle? style
     +with_phase(phase)
+  }
+
+  class ToastStyle {
+    +int height
+    +int width
+    +int spacing
+    +int border_radius
+    +int padding
+    +ft.AnimationCurve position_curve
+    +int in_duration
+    +ft.Offset in_offset
+    +ft.AnimationCurve in_offset_curve
+    +float in_opacity
+    +ft.AnimationCurve in_opacity_curve
+    +float in_scale
+    +ft.AnimationCurve in_scale_curve
+    +int out_duration
+    +ft.Offset out_offset
+    +ft.AnimationCurve out_offset_curve
+    +float out_opacity
+    +ft.AnimationCurve out_opacity_curve
+    +float out_scale
+    +ft.AnimationCurve out_scale_curve
+    +dict~ToastType, ft.ColorValue~ bgcolors
+    +dict~ToastType, ft.IconData~ icons
+    +dict~ToastType, ft.ColorValue~ icon_colors
+    +dict~ToastType, ft.ColorValue~ text_colors
+    +bgcolor_for(type)
+    +icon_for(type)
+    +icon_color_for(type)
+    +text_color_for(type)
   }
 
   class Position {
@@ -48,9 +86,15 @@ classDiagram
   }
 
   flet_toastify_models ..> Toast
+  flet_toastify_style ..> ToastStyle
   flet_toastify_types ..> Position
   flet_toastify_types ..> ToastPhase
   flet_toastify_types ..> ToastType
   Toast ..> ToastPhase
+  Toast ..> ToastStyle
   Toast ..> ToastType
+  ToastStyle ..> Toast
+  ToastStyle ..> ToastType
+  flet_toastify_models --> flet_toastify_style
   flet_toastify_models --> flet_toastify_types
+  flet_toastify_style --> flet_toastify_types

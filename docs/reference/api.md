@@ -15,3 +15,9 @@ Domain enums: toast semantic type, animation lifecycle phase, and toaster placem
 Immutable toast value object.
 
 ::: flet_toastify.models
+
+## Style
+
+Visual and animation styling, with per-type resolution and fallbacks.
+
+::: flet_toastify.style

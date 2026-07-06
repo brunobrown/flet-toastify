@@ -11,6 +11,7 @@ from dataclasses import dataclass, field, replace
 
 import flet as ft
 
+from flet_toastify.style import ToastStyle
 from flet_toastify.types import ToastPhase, ToastType
 
 __all__ = ["DEFAULT_DURATION_MS", "Toast"]
@@ -35,6 +36,7 @@ class Toast:
             toast on screen until dismissed manually.
         phase: Current animation lifecycle stage.
         id: Unique identifier; generated automatically when omitted.
+        style: Per-toast style override; ``None`` uses the toaster's style.
 
     Raises:
         ValueError: If ``duration_ms`` is negative.
@@ -54,6 +56,9 @@ class Toast:
 
     id: str = field(default_factory=_new_toast_id)
     """Unique identifier; generated automatically when omitted."""
+
+    style: ToastStyle | None = None
+    """Per-toast style override; ``None`` uses the toaster's style."""
 
     def __post_init__(self) -> None:
         """Validate field invariants after initialization."""

@@ -8,6 +8,12 @@ classDiagram
     +class Toast
   }
 
+  class flet_toastify_style {
+    <<module>>
+    +module flet_toastify.style
+    +class ToastStyle
+  }
+
   class flet_toastify_types {
     <<module>>
     +module flet_toastify.types
@@ -16,4 +22,6 @@ classDiagram
     +class Position
   }
 
+  flet_toastify_models --> flet_toastify_style
   flet_toastify_models --> flet_toastify_types
+  flet_toastify_style --> flet_toastify_types
