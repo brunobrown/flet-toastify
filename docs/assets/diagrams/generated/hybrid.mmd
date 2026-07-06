@@ -2,6 +2,20 @@ classDiagram
   direction LR
   %% flet-toastify generated architecture diagrams: hybrid modules and classes
 
+  class flet_toastify_components {
+    <<module>>
+    +module flet_toastify.components
+    +class CardVisual
+    +card_offset_px()
+    +stack_coordinates()
+    +row_alignment()
+    +card_visual()
+    +build_card()
+    +position_wrapper()
+    +ToastCard()
+    +Toaster()
+  }
+
   class flet_toastify_models {
     <<module>>
     +module flet_toastify.models
@@ -26,6 +40,15 @@ classDiagram
     +class ToastType
     +class ToastPhase
     +class Position
+  }
+
+  class CardVisual {
+    +float opacity
+    +float scale
+    +ft.Offset offset
+    +ft.Animation animate_opacity
+    +ft.Animation animate_scale
+    +ft.Animation animate_offset
   }
 
   class Toast {
@@ -101,6 +124,7 @@ classDiagram
     +Any ERROR
   }
 
+  flet_toastify_components ..> CardVisual
   flet_toastify_models ..> Toast
   flet_toastify_state ..> Toasts
   flet_toastify_style ..> ToastStyle
@@ -115,6 +139,10 @@ classDiagram
   Toasts ..> ToastStyle
   ToastStyle ..> Toast
   ToastStyle ..> ToastType
+  flet_toastify_components --> flet_toastify_models
+  flet_toastify_components --> flet_toastify_state
+  flet_toastify_components --> flet_toastify_style
+  flet_toastify_components --> flet_toastify_types
   flet_toastify_models --> flet_toastify_style
   flet_toastify_models --> flet_toastify_types
   flet_toastify_state --> flet_toastify_models

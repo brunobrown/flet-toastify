@@ -2,6 +2,15 @@ classDiagram
   direction LR
   %% flet-toastify generated architecture diagrams: classes
 
+  class CardVisual {
+    +float opacity
+    +float scale
+    +ft.Offset offset
+    +ft.Animation animate_opacity
+    +ft.Animation animate_scale
+    +ft.Animation animate_offset
+  }
+
   class Toast {
     +str | ft.Control content
     +ToastType type

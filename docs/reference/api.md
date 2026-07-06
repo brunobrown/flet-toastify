@@ -27,3 +27,9 @@ Visual and animation styling, with per-type resolution and fallbacks.
 Observable toast collection, lifecycle orchestration, and the default `toast` instance.
 
 ::: flet_toastify.state
+
+## Components
+
+Declarative UI: `Toaster`, `ToastCard`, and the pure card/layout builders behind them.
+
+::: flet_toastify.components

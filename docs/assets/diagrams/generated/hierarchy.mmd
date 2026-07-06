@@ -2,10 +2,11 @@ flowchart TD
   %% flet-toastify generated architecture diagrams: module hierarchy
   subgraph node_1["flet_toastify/"]
     direction TD
-    node_2["flet_toastify/models.py<br/>classes: Toast"]:::module
-    node_3["flet_toastify/state.py<br/>classes: Toasts"]:::module
-    node_4["flet_toastify/style.py<br/>classes: ToastStyle"]:::module
-    node_5["flet_toastify/types.py<br/>classes: ToastType, ToastPhase, Position"]:::module
+    node_2["flet_toastify/components.py<br/>classes: CardVisual<br/>functions: card_offset_px, stack_coordinates, row_alignment, card_visual, build_card, position_wrapper, ToastCard, Toaster"]:::module
+    node_3["flet_toastify/models.py<br/>classes: Toast"]:::module
+    node_4["flet_toastify/state.py<br/>classes: Toasts"]:::module
+    node_5["flet_toastify/style.py<br/>classes: ToastStyle"]:::module
+    node_6["flet_toastify/types.py<br/>classes: ToastType, ToastPhase, Position"]:::module
   end
 
   classDef module fill:#f8fafc,stroke:#94a3b8,color:#111827

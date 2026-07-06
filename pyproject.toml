@@ -38,7 +38,7 @@ packages = ["src/flet_toastify"]
 dev = [
     "flet[all]>=0.85.3",
     "lizard>=1.22.1",
-    "zensical>=0.0.37",
+    "zensical>=0.0.47",
     "mkdocstrings[python]>=0.30.0",
     "pymdown-extensions>=10.16",
     "pre-commit>=4.3.0",
@@ -83,6 +83,10 @@ ignore = ["E501"]
 
 [tool.ruff.lint.mccabe]
 max-complexity = 10
+
+[tool.ruff.lint.per-file-ignores]
+# Flet declarative components are PascalCase by convention (like React).
+"src/flet_toastify/components.py" = ["N802"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["flet_toastify"]
